@@ -37,4 +37,19 @@ def populate_tree():
 init_tree()
 populate_tree()
 
-print(len(tree.paths_to_leaves()))
+
+def calculate_orbits():
+  direct_orbits = len(tree.all_nodes())
+  indirect_orbits = 0
+  for x in tree.all_nodes():
+    indirect_orbits = indirect_orbits + (tree.depth(x.identifier) -1)
+
+  print(direct_orbits + indirect_orbits)
+
+def minimum_orbit_transfers():
+  santa = tree.get_node('SAN')
+  me = tree.get_node('YOU')
+  print('depths', tree.depth(santa), tree.depth(me))
+
+calculate_orbits()
+minimum_orbit_transfers()

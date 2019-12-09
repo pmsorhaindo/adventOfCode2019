@@ -112,6 +112,7 @@ originX = abs(largestXOffset)
 originY = abs(largestYOffset)
 
 grid = pd.DataFrame(np.empty((largestLimitX  + abs(largestXOffset) + 2, largestLimitY + abs(largestYOffset) + 2), dtype = np.str))
+print(originX, originY)
 
 grid[:][:] = '.'
 grid[0][8] = 'o'
