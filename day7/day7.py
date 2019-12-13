@@ -15,7 +15,6 @@ for phase_seq in phases:
   for phase in phase_sequence:
     ics.append(IntComputer(phase))
   
-  ics[0].input(0)
 
   while ics[4].complete == False:
     ics[ic_pointer % 5].input(output_signal)

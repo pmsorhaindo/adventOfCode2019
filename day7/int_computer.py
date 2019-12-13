@@ -40,19 +40,15 @@ class IntComputer:
     return (program_list, 4, False)
 
   def run_input_operation(self, program_list, instruction_pointer, parsed_instruction):
-    print('set phase  for ', self.phase)
     if self.phase_set == False:
       program_list[program_list[instruction_pointer+1]] = self.phase
       self.phase_set = True
-      self.awaiting_input = False
+      self.awaiting_input = True
       return (program_list, 2, False)
     else:
-      print('input for', self.phase)
       if self.awaiting_input:
-        self.load_point = [instruction_pointer]
         return (program_list, 0, False)
       else:
-        print('preceeding from input')
         program_list[program_list[instruction_pointer+1]] = self.input_signal
         self.awaiting_input = True
         return (program_list, 2, False)
@@ -94,7 +90,6 @@ class IntComputer:
   def run_if_equal_operation(self, program_list, instruction_pointer, parsed_instruction):
     first = program_list[program_list[instruction_pointer+1]] if int(parsed_instruction[2]) == 0 else program_list[instruction_pointer+1]
     second = program_list[program_list[instruction_pointer+2]] if int(parsed_instruction[1]) == 0 else program_list[instruction_pointer+2]
-    print(first, second, program_list[program_list[instruction_pointer+3]], parsed_instruction[0], program_list)
     if first == second:
       if int(parsed_instruction[0]) == 0:
         program_list[program_list[instruction_pointer+3]] = 1
@@ -137,7 +132,7 @@ class IntComputer:
       instruction_pointer = instruction_pointer + param_jump
 
     if self.awaiting_input and program_list[instruction_pointer] % 100 is INPUT_OP_CODE:
-      print('terminating')
+      self.load_point = instruction_pointer
       return self.output
 
     if (program_list[instruction_pointer] is 99):
@@ -147,9 +142,7 @@ class IntComputer:
       return self.process_program(program_list, instruction_pointer)
 
   def run(self):
-    print('process', self.phase, 'from', self.load_point)
     self.process_program(self.code, self.load_point)
-    print('getting', self.output)
     return self.output
 
   def input(self, input_signal):
